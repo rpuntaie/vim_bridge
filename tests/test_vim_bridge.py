@@ -1,8 +1,12 @@
+# vim: fileencoding=utf-8
+
+## py.test tests
+
 import unittest
 
 # Fake the system path to direct "import vim" calls to our mock module
 import sys
-sys.path = ['tests/mocks'] + sys.path
+sys.path = ['.','tests/mocks'] + sys.path
 
 # Stub out the random function
 import vim_bridge
@@ -69,13 +73,13 @@ class TestBridgedDecorator(unittest.TestCase):
         from vim_bridge.registry import func_register
         import vim
 
-        self.assertFalse(func_register.has_key('foo'))
+        self.assertFalse('foo' in func_register)
         self.assertFalse(vim.command.called)
 
         @bridged
         def foo(x,y): pass
 
-        self.assertTrue(func_register.has_key('foo'))
+        self.assertTrue('foo' in func_register)
         self.assertTrue(vim.command.called)
         self.assertCodeEquals(vim.command.call_args[0][0], \
            """
