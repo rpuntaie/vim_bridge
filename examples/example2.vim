@@ -1,4 +1,5 @@
 python << endpython
+#py3 << endpython
 from vim_bridge import bridged
 
 @bridged

@@ -1,4 +1,5 @@
 python << eop
+#py3 << eop
 import os
 import vim
 from vim_bridge import bridged

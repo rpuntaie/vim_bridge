@@ -62,22 +62,25 @@ def bridged(fin):
 
     prefix = '__vim_brdg_%d_' % _rand()
 
-    lines = ['fun! %s%s(%s)' % (private, vimname, ", ".join(func_args))]
-    lines.append('python << endp')
-    for arg in func_args:
-        lines.append('%s%s = vim.eval("a:%s")' % (prefix, arg, arg))
-    lines.append('from vim_bridge.registry import func_register as fr')
-    lines.append('from vim_bridge import _cast_to_vimsafe_result as c2v')
-    lines.append('%sresult = c2v(fr["%s"](%s))' % (prefix, func_name, \
-            ", ".join([prefix + s for s in func_args])))
-    lines.append('vim.command("return %%s" %% repr(%sresult))' % prefix)
-    for arg in func_args:
-        #lines.append('try:')
-        lines.append('del %s%s' % (prefix, arg))
-        #lines.append('except NameError: pass')
-    lines.append('del %sresult' % prefix)
-    lines.append('endp')
-    lines.append('endf')
+    def _vim_fun(pyver):
+        lines = ['fun! %s%s(%s)' % (private, vimname, ", ".join(func_args))]
+        lines.append(pyver+' << endp')
+        for arg in func_args:
+            lines.append('%s%s = vim.eval("a:%s")' % (prefix, arg, arg))
+        lines.append('from vim_bridge.registry import func_register as fr')
+        lines.append('from vim_bridge import _cast_to_vimsafe_result as c2v')
+        lines.append('%sresult = c2v(fr["%s"](%s))' % (prefix, func_name, \
+                ", ".join([prefix + s for s in func_args])))
+        lines.append('vim.command("return %%s" %% repr(%sresult))' % prefix)
+        for arg in func_args:
+            #lines.append('try:')
+            lines.append('del %s%s' % (prefix, arg))
+            #lines.append('except NameError: pass')
+        lines.append('del %sresult' % prefix)
+        lines.append('endp')
+        lines.append('endf')
+        return lines
+    lines = ["if has('python3')"] + _vim_fun('py3') + ['else'] + _vim_fun('python') + ['endif']
     vim.command("\n".join(lines))
 
     return fin

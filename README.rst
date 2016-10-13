@@ -26,6 +26,7 @@ native Vim callables.  Both arguments and return values are casted so it should
 be transparent::
 
     python << endpython
+    #py3 << endpython
     from vim_bridge import bridged
 
     @bridged
@@ -54,6 +55,7 @@ More examples
 Passing in a list::
 
     python << endpython
+    #py3 << endpython
     from vim_bridge import bridged
 
     @bridged
@@ -69,6 +71,7 @@ Passing in a list::
 Catching exceptions::
 
     python << endpython
+    #py3 << endpython
     from vim_bridge import bridged
 
     @bridged
@@ -94,6 +97,7 @@ Using Python stdlib functions to do work that would be more difficult using
 pure Vim scripting::
 
     python << END
+    #py3 << END
     import os.path
     from vim_bridge import bridged
 
@@ -111,6 +115,7 @@ from inside Vim, it does not matter.  In this example, NormalizePath is called
 from both Python and Vim::
 
     python << END
+    #py3 << END
     import os.path
     from vim_bridge import bridged
 
@@ -137,6 +142,7 @@ the Vim context as a ``<SID>``-prefixed function (i.e. a "private" function
 that cannot be called from outside the script)::
 
     python << eop
+    #py3 << eop
     import os
     import vim
     from vim_bridge import bridged

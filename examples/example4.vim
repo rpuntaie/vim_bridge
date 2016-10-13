@@ -1,4 +1,5 @@
 python << END
+#py3 << END
 import os.path
 from vim_bridge import bridged
 
