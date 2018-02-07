@@ -16,12 +16,12 @@ else:
 from vim_bridge import __version__ as version
 
 setup(
-    name="vim_bridge",
+    name="vim_bridge3",
     version=version,
     description="A Python-to-Vim bridge decorator that allows transparent calls to Python functions in native Vim scripts.",
     author="Vincent Driessen",
     author_email="vincent@datafox.nl",
-    url="http://github.com/nvie/vim_bridge",
+    url="http://github.com/rpuntaie/vim_bridge",
     platforms=["any"],
     license="BSD",
     packages=find_packages(),
@@ -30,22 +30,11 @@ setup(
     test_suite="nose.collector",
     zip_safe=False,
     classifiers=[
-        # Picked from
-        #    http://pypi.python.org/pypi?:action=list_classifiers
-        #"Development Status :: 1 - Planning",
-        #"Development Status :: 2 - Pre-Alpha",
-        #"Development Status :: 3 - Alpha",
         "Development Status :: 4 - Beta",
-        #"Development Status :: 5 - Production/Stable",
-        #"Development Status :: 6 - Mature",
-        #"Development Status :: 7 - Inactive",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.4",
-        "Programming Language :: Python :: 2.5",
-        "Programming Language :: Python :: 2.6",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Operating System :: POSIX",

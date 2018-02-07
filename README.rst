@@ -1,32 +1,35 @@
-=====================================
- vim_bridge - a Python-to-Vim bridge
-=====================================
+====================================
+vim_bridge3 - a Python-to-Vim bridge
+====================================
 
-.. image:: http://stillmaintained.com/nvie/vim_bridge.png
+Python 3 port of the *original for Python 2:* `<https://github.com/nvie/vim_bridge>`_
+
 
 What is it?
 -----------
-vim_bridge_ is a Python-to-Vim bridge decorator that allows transparent calls
+
+*vim_bridge3* is a Python-to-Vim bridge decorator that allows transparent calls
 to Python functions in native Vim scripts.
 
 
 Installation
 ------------
-Simply install the vim_bridge_ Python package, using setuptools,
+
+Install the `vim_bridge3`_ Python package, using setuptools,
 ``easy_install``, or ``pip``.
 
 
-.. _vim_bridge: http://pypi.python.org/pypi/vim_bridge/
+.. _`vim_bridge3`: http://pypi.python.org/pypi/vim_bridge3/
 
 
 Usage
 -----
+
 In a Vim script, decorate your Python functions as follows to expose them as
 native Vim callables.  Both arguments and return values are casted so it should
 be transparent::
 
-    python << endpython
-    #py3 << endpython
+    python3 << endpython
     from vim_bridge import bridged
 
     @bridged
@@ -37,11 +40,12 @@ be transparent::
 
     " Now call directly into the Python function!
     echo SayHello("John", "Doe")
-               " prints "Hello, John Doe!"
+    " prints "Hello, John Doe!"
 
 
 Supported
 ---------
+
 The following data types have proven to work:
 
 * Strings
@@ -52,10 +56,10 @@ The following data types have proven to work:
 
 More examples
 -------------
+
 Passing in a list::
 
-    python << endpython
-    #py3 << endpython
+    python3 << endpython
     from vim_bridge import bridged
 
     @bridged
@@ -70,8 +74,7 @@ Passing in a list::
 
 Catching exceptions::
 
-    python << endpython
-    #py3 << endpython
+    python3 << endpython
     from vim_bridge import bridged
 
     @bridged
@@ -92,30 +95,26 @@ Catching exceptions::
         echo "Cleaning up."
     endtry
 
+Using Python stdlib functions to do work that would be more difficult
+using pure Vim scripting::
 
-Using Python stdlib functions to do work that would be more difficult using
-pure Vim scripting::
-
-    python << END
-    #py3 << END
+    python3 << endpython
     import os.path
     from vim_bridge import bridged
 
     @bridged
     def NormalizePath(path):
         return os.path.realpath(path)
-    END
+    endpython
 
     echo NormalizePath("/this/../or/./.././that/is/./a/.//very/../obscure/..//././long/./../path/name")
     echo NormalizePath("..")
 
+You can use the bridged function definitions within a Python block
+itself, or from inside Vim, it does not matter.  In this example,
+NormalizePath is called from both Python and Vim::
 
-You can use the bridged function definitions within a Python block itself, or
-from inside Vim, it does not matter.  In this example, NormalizePath is called
-from both Python and Vim::
-
-    python << END
-    #py3 << END
+    python3 << endpython
     import os.path
     from vim_bridge import bridged
 
@@ -127,22 +126,21 @@ from both Python and Vim::
     def RealPath(path):
         # It does not matter if you call NormalizePath from here...
         return NormalizePath(path)
-    END
+    endpython
 
     " ...or from here
     echo NormalizePath("/this/../or/./.././that/is/./a/.//very/../obscure/..//././long/./../path/name")
     echo RealPath("..")
 
+Since vim_bridge 0.4, the function name casing convention is
+automatically converted to match Vim's conventions (and *requirement*
+even, since function names **must** start with a capital letter).
+Besides casing, prefixing the Python function with an underscore will
+lead to the function being defined in the Vim context as a
+``<SID>``-prefixed function (i.e. a "private" function that cannot be
+called from outside the script)::
 
-Since vim_bridge 0.4, the function name casing convention is automatically
-converted to match Vim's conventions (and *requirement* even, since function
-names **must** start with a capital letter).  Besides casing, prefixing the
-Python function with an underscore will lead to the function being defined in
-the Vim context as a ``<SID>``-prefixed function (i.e. a "private" function
-that cannot be called from outside the script)::
-
-    python << eop
-    #py3 << eop
+    python3 << endpython
     import os
     import vim
     from vim_bridge import bridged
@@ -163,10 +161,19 @@ that cannot be called from outside the script)::
     @bridged
     def _long_private_name():
         return "I'm private, and my case is converted automatically."
-    eop
+    endpython
 
     echo Public()
     echo s:Private()
     echo MyNameIsAutoConverted()
     echo s:LongPrivateName()
 
+
+Changes
+-------
+
+- Original code by Vincent Driessen (@nvie) in 2010. BSD License.
+- Support for Python2 and Python3 by Roland Puntaier (@rpuntaie) in 2016.
+- Support for Python3 by Walter Doekes (@wdoekes) in 2017.
+- vim_bridge3 for pypi by Roland Puntaier (@rpuntaie) in 2018.
+  
