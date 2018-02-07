@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+
+#sudo python setup.py bdist_wheel
+#twine upload ./dist/*.whl
+
 import os
 import codecs
 try:
