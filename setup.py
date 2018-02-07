@@ -18,7 +18,7 @@ from vim_bridge import __version__ as version
 setup(
     name="vim_bridge3",
     version=version,
-    description="A Python-to-Vim bridge decorator that allows transparent calls to Python functions in native Vim scripts.",
+    description="A Python3-to-Vim bridge decorator that allows transparent calls to Python 3 functions in native Vim scripts.",
     author="Vincent Driessen",
     author_email="vincent@datafox.nl",
     url="http://github.com/rpuntaie/vim_bridge",

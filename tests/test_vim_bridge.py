@@ -6,7 +6,7 @@ import unittest
 
 # Fake the system path to direct "import vim" calls to our mock module
 import sys
-sys.path = ['.','./tests/mocks'] + sys.path
+sys.path = ['.','./tests/mocks','./mocks','..'] + sys.path
 
 # Stub out the random function
 import vim_bridge
@@ -81,42 +81,21 @@ class TestBridgedDecorator(unittest.TestCase):
 
         self.assertTrue('foo' in func_register)
         self.assertTrue(vim.command.called)
+        print(vim.command.call_args[0][0])
         self.assertCodeEquals(vim.command.call_args[0][0], \
            """
-           if has('python3')
            fun! Foo(x, y)
-           py3 << endp
+           python3 << endp
            __vim_brdg_3_x = vim.eval("a:x")
            __vim_brdg_3_y = vim.eval("a:y")
-
            from vim_bridge.registry import func_register as fr
            from vim_bridge import _cast_to_vimsafe_result as c2v
-
            __vim_brdg_3_result = c2v(fr["foo"](__vim_brdg_3_x, __vim_brdg_3_y))
            vim.command("return %s" % repr(__vim_brdg_3_result))
-
            del __vim_brdg_3_x
            del __vim_brdg_3_y
            del __vim_brdg_3_result
            endp
            endf
-           else
-           fun! Foo(x, y)
-           python << endp
-           __vim_brdg_3_x = vim.eval("a:x")
-           __vim_brdg_3_y = vim.eval("a:y")
-
-           from vim_bridge.registry import func_register as fr
-           from vim_bridge import _cast_to_vimsafe_result as c2v
-
-           __vim_brdg_3_result = c2v(fr["foo"](__vim_brdg_3_x, __vim_brdg_3_y))
-           vim.command("return %s" % repr(__vim_brdg_3_result))
-
-           del __vim_brdg_3_x
-           del __vim_brdg_3_y
-           del __vim_brdg_3_result
-           endp
-           endf
-           endif
            """)
 
